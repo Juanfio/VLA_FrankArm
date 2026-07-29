@@ -28,12 +28,10 @@ dependencies:
   - ipywidgets=8.1.2
   - black=24.4.2
 
-  - opencv==4.9.0.80 # Computer vision
   - pip:
     # Simulation
     - pybullet==3.2.6         # physics simulator
     - gymnasium==0.29.1       # standard RL/IL environment API
-    - pybullet-data==0.0.1    # pre-built URDF assets (Franka, tables, objects)
 
     # Imitation learning / diffusion policy
     - diffusers==0.27.2       # HuggingFace diffusion primitives (noise schedulers)
@@ -46,7 +44,9 @@ dependencies:
     - tqdm==4.66.4
     - zarr==2.18.2            # efficient array storage for trajectories
 
-    - Pillow==10.3.0 # Computer vision
+    # Computer vision
+    - Pillow==10.3.0
+    - opencv-python==4.9.0.80
 
     # Utilities
     - pynput==1.7.7           # keyboard/mouse for scripted oracle teleoperation
