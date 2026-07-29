@@ -81,25 +81,98 @@ PEG_URDF_TEMPLATE = """<?xml version="1.0"?>
 </robot>
 """
 
+# HOLE_URDF_TEMPLATE = """<?xml version="1.0"?>
+# <robot name="hole">
+#   <link name="base">
+#     <visual>
+#       <geometry><box size="0.06 0.06 0.04"/></geometry>
+#       <origin xyz="0 0 0.02"/>
+#       <material name="hole_mat"><color rgba="0.3 0.3 0.8 1"/></material>
+#     </visual>
+#     <collision>
+#       <geometry><box size="0.06 0.06 0.04"/></geometry>
+#       <origin xyz="0 0 0.02"/>
+#     </collision>
+#     <inertial>
+#       <mass value="1.0"/>
+#       <inertia ixx="1e-4" iyy="1e-4" izz="1e-4" ixy="0" ixz="0" iyz="0"/>
+#     </inertial>
+#   </link>
+# </robot>
+# """
+
 HOLE_URDF_TEMPLATE = """<?xml version="1.0"?>
 <robot name="hole">
+
+  <!-- bottom plate: peg rests on this once inserted -->
   <link name="base">
     <visual>
-      <geometry><box size="0.06 0.06 0.04"/></geometry>
-      <origin xyz="0 0 0.02"/>
+      <geometry><box size="0.09 0.09 0.01"/></geometry>
+      <origin xyz="0 0 0.005"/>
       <material name="hole_mat"><color rgba="0.3 0.3 0.8 1"/></material>
     </visual>
     <collision>
-      <geometry><box size="0.06 0.06 0.04"/></geometry>
-      <origin xyz="0 0 0.02"/>
+      <geometry><box size="0.09 0.09 0.01"/></geometry>
+      <origin xyz="0 0 0.005"/>
     </collision>
     <inertial>
       <mass value="1.0"/>
       <inertia ixx="1e-4" iyy="1e-4" izz="1e-4" ixy="0" ixz="0" iyz="0"/>
     </inertial>
   </link>
+
+  <!-- four walls forming a square slot around a 0.05 x 0.05 cavity -->
+  <link name="wall_left">
+    <visual><geometry><box size="0.02 0.09 0.06"/></geometry>
+      <material name="hole_mat"><color rgba="0.3 0.3 0.8 1"/></material></visual>
+    <collision><geometry><box size="0.02 0.09 0.06"/></geometry></collision>
+    <inertial><mass value="0.5"/>
+      <inertia ixx="1e-4" iyy="1e-4" izz="1e-4" ixy="0" ixz="0" iyz="0"/></inertial>
+  </link>
+  <joint name="j_wall_left" type="fixed">
+    <parent link="base"/><child link="wall_left"/>
+    <origin xyz="-0.035 0 0.04"/>
+  </joint>
+
+  <link name="wall_right">
+    <visual><geometry><box size="0.02 0.09 0.06"/></geometry>
+      <material name="hole_mat"><color rgba="0.3 0.3 0.8 1"/></material></visual>
+    <collision><geometry><box size="0.02 0.09 0.06"/></geometry></collision>
+    <inertial><mass value="0.5"/>
+      <inertia ixx="1e-4" iyy="1e-4" izz="1e-4" ixy="0" ixz="0" iyz="0"/></inertial>
+  </link>
+  <joint name="j_wall_right" type="fixed">
+    <parent link="base"/><child link="wall_right"/>
+    <origin xyz="0.035 0 0.04"/>
+  </joint>
+
+  <link name="wall_front">
+    <visual><geometry><box size="0.05 0.02 0.06"/></geometry>
+      <material name="hole_mat"><color rgba="0.3 0.3 0.8 1"/></material></visual>
+    <collision><geometry><box size="0.05 0.02 0.06"/></geometry></collision>
+    <inertial><mass value="0.5"/>
+      <inertia ixx="1e-4" iyy="1e-4" izz="1e-4" ixy="0" ixz="0" iyz="0"/></inertial>
+  </link>
+  <joint name="j_wall_front" type="fixed">
+    <parent link="base"/><child link="wall_front"/>
+    <origin xyz="0 -0.035 0.04"/>
+  </joint>
+
+  <link name="wall_back">
+    <visual><geometry><box size="0.05 0.02 0.06"/></geometry>
+      <material name="hole_mat"><color rgba="0.3 0.3 0.8 1"/></material></visual>
+    <collision><geometry><box size="0.05 0.02 0.06"/></geometry></collision>
+    <inertial><mass value="0.5"/>
+      <inertia ixx="1e-4" iyy="1e-4" izz="1e-4" ixy="0" ixz="0" iyz="0"/></inertial>
+  </link>
+  <joint name="j_wall_back" type="fixed">
+    <parent link="base"/><child link="wall_back"/>
+    <origin xyz="0 0.035 0.04"/>
+  </joint>
+
 </robot>
 """
+
 
 
 def _write_tmp_urdf(content: str, name: str) -> str:
@@ -250,7 +323,7 @@ class PegInsertionEnv:
 
         # store peg initial position for reward computation
         self._peg_start = np.array([peg_x, peg_y, 0.63])
-        self._hole_pos  = np.array([0.55, 0.20, 0.665])  # top of hole
+        self._hole_pos  = np.array([0.55, 0.20, 0.695])  # top of hole
 
     def _set_robot_home(self):
         """Reset joints to a neutral above-table pose."""

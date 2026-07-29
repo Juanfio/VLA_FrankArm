@@ -36,7 +36,7 @@ class OraclePolicy:
     APPROACH_HEIGHT = 0.85      # z above peg to approach
     GRASP_HEIGHT    = 0.65      # z to descend to for grasping
     LIFT_HEIGHT     = 0.90      # z to lift peg to before moving to hole
-    INSERT_HEIGHT   = 0.63      # z to lower peg into hole
+    INSERT_HEIGHT   = 0.645      # z to lower peg into hole
 
     POS_THRESH = 0.015          # position tolerance to advance phase
 
