@@ -274,7 +274,7 @@ class SubPolicy(nn.Module):
         ab    = self.alpha_bar[t_idx].unsqueeze(1)
         noise = torch.randn_like(actions)
         x_t   = ab.sqrt() * actions + (1 - ab).sqrt() * noise
-        pred  = self.noise_net(x_t, t_idx.float(), cond)
+        pred  = self.noise_net(x_t, t_idx.float(), cond) # predict the noise.
         return F.mse_loss(pred, noise)
 
     @torch.no_grad()
