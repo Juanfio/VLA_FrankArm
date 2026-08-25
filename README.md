@@ -36,3 +36,6 @@
 1. Billard, A. et al. A roadmap for AI in robotics. Nature Machine Intelligence 7, 818–824 (2025).
 2. Liu, Y. et al. Aligning Cyber Space with Physical World: A Comprehensive Survey on Embodied AI. arXiv:2407.06886 (2024).
 3. Roy, N. et al. From Machine Learning to Robotics: Challenges and Opportunities for Embodied Intelligence. arXiv:2110.15245 (2021).
+4. Open X-Embodiment Collaboration et al. Open X-Embodiment: Robotic Learning Datasets and RT-X Models. Proc. IEEE International Conference on Robotics and Automation (ICRA), 6892–6903 (2024).
+5. Kim, M. J. et al. OpenVLA: An Open-Source Vision-Language-Action Model. Proc. 8th Conference on Robot Learning 270, 2679–2713 (2025).
+6. Ha, D. & Schmidhuber, J. Recurrent World Models Facilitate Policy Evolution. Advances in Neural Information Processing Systems 31, 2451–2463 (2018).
