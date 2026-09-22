@@ -19,13 +19,14 @@ class MiniArmEnv():
     dt_pos = np.array([0.0,0.0,0.01]) # delta perturbation in the position.
     obs, reward, done, info = arm_env.step(action=dt_pos)
     '''
-    def __init__(self, max_steps: int = 300, render: bool = True):
+    def __init__(self, max_steps: int = 300, image_size: int = 224, render: bool = True):
         self.max_steps = max_steps
         self.physics_engine_update = 240 # 240 Hz.
         self.success_threshold = 0.25
         self._step_count = 0
         self.delta_step = 0.05 # update 5cm towards the direction of the sphere per step.
-        
+        self.image_size = image_size # both width and height.
+
         mode = p.GUI if render else p.DIRECT
         self.client = p.connect(mode)
 
@@ -166,8 +167,8 @@ class MiniArmEnv():
             )
                                         
         _, _, rgb, depth, _ = p.getCameraImage(
-            width=300,
-            height=300,
+            width=self.image_size,
+            height=self.image_size,
             viewMatrix = view_mat,
             projectionMatrix=proj_mat,
             physicsClientId = self.client
