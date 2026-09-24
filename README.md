@@ -1,6 +1,34 @@
-# Simulation projects
+# VLA-FrankArm: Vision-Language-Action Manipulation with a Franka Arm
 
-* Robotic's projects with simulated data (PyBullet) over multiple different tasks (e.g., project 1 is a reach task.)
+Vision-Language-Action Model (VLA) trained on Open X Embodiment (OxE) data for manipulation tasks with Franka Arm. Policy rollout on simulated environment.
+
+> 🚧 Early-stage research project. Installation and usage instructions coming soon.
+
+<!-- # Description
+
+* Trained VLA model using OxE datasets (Freiburg Franka Play & Stanford Hydra) of Franka Arm. The trained model is fine-tuned to solve manipulation task with a Franka Arm in a simulated environment. -->
+
+<!-- # Demo -->
+<!-- Add some screenshots of simulated and OxE data -->
+
+
+<!-- # Installation -->
+
+<!-- # Usage -->
+
+# Project Structure
+
+- `/notebooks/models.ipynb`: model training/definition (to be moved to `/models`)
+- `/simulation/miniarm_env.py`: PyBullet simulation of the Franka Arm; goal is to reach a target sphere
+- `/simulation/oracle.py`: generates rollout episodes and saves data to `/data`
+- `/data`: generated episode data (OxE and simulated data)
+- `/environments/oxe_download.yml`: For downloading the OxE data.
+- `/environments/env_robotics.yml`: For model training.
+
+
+<!-- # Simulation projects
+
+* Vision Robotic's projects with simulated data (PyBullet) over multiple different tasks (e.g., project 1 is a reach task.)
 * Projects aim to address the sim-to-real problem, i.e., policies learned in simulated environments often failed when deployed on real-world physical robots.
 
 # Project structure
@@ -34,7 +62,7 @@ _In progress_
 
 #### Project 3
 
-_In progress_
+_In progress_ -->
 
 
 # References
