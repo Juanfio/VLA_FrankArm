@@ -1,0 +1,10 @@
+{
+    "data_name_lst": [
+        "stanford_hydra_dataset_converted_externally_to_rlds",
+        "taco_play"
+    ],
+    "n_episodes": 2,
+    "path_data": "../data",
+    "output_name": "stanford_hydra_taco_play"
+    
+}
