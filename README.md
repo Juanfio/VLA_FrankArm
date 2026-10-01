@@ -14,11 +14,30 @@ Vision-Language-Action Model (VLA) trained on Open X Embodiment (OxE) data for m
 
 <!-- # Installation -->
 
-<!-- # Usage -->
+# Usage
+
+`Select datasets via cfg.json`
+
+`python download_oxe_data.py --settings cfg.json`
+
+`python -m model.train --settings cfg.json --n_epochs 5`
+
+<!-- SOMETHING ABOUT PRINTING PLOTS -->
+
+<!-- SOMETHING ABOUT RUNNING FINE-TUNE -->
+
+<!-- SOMETHING ABOUT ROLLOUT -->
 
 # Project Structure
 
-- `/notebooks/models.ipynb`: model training/definition (to be moved to `/models`)
+- `/preprocessing/download_oxe_data.py`: `python download_oxe_data.py --settings cfg.json` for downloading OxE dataset.
+- `/preprocessing/preprocessing.py`: Run the preprocessing pipeline: 
+    1. Discretize action space
+    2. Resize images
+    3. Embedding language instruction
+    4. Create dataloaders.
+- `/model/models.py`: Vision Transformer & Action Prediction models
+- `/model/train.py`: Training loop. `python -m model.train --settings cfg.json --n_epochs 5`
 - `/simulation/miniarm_env.py`: PyBullet simulation of the Franka Arm; goal is to reach a target sphere
 - `/simulation/oracle.py`: generates rollout episodes and saves data to `/data`
 - `/data`: generated episode data (OxE and simulated data)

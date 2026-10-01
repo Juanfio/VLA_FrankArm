@@ -12,11 +12,9 @@ import argparse
 
 import tensorflow_datasets as tfds
 import tensorflow as tf
+from utils import get_settings
 
 
-def _get_download_settings(download_settings: dict):
-    with open(f"{download_settings}", "r") as file:
-        return json.load(file)
 
 
 def feature_to_metadata(feature):
@@ -148,18 +146,15 @@ def save_hdf5_dataset(path_data: str, data_name_lst: list, n_episodes: int, outp
 
 # ─────────────────────────────────────────────────────────────────────────────
 if __name__ == "__main__":
-    '''
-    python download_oxe_data.py --download_settings cfg.json
-    '''
+    # python download_oxe_data.py --settings cfg.json
     parser = argparse.ArgumentParser()
-    parser.add_argument("--download_settings", type=str)
+    parser.add_argument("--settings", type=str, default="cfg.json")
     args = parser.parse_args()
 
-    download_settings = _get_download_settings(download_settings=
-                                               str(Path(__file__).resolve().parent.parent / f"{args.download_settings}"))    
-    data_name_lst = download_settings["data_name_lst"] # characteristics: Franka, Single Arm, EEF Position.
-    n_episodes = download_settings["n_episodes"]
-    output_name = download_settings["output_name"]
+    settings = get_settings(settings=str(Path(__file__).resolve().parent.parent / f"{args.settings}"))    
+    data_name_lst = settings["data_name_lst"] # characteristics: Franka, Single Arm, EEF Position.
+    n_episodes = settings["n_episodes"]
+    output_name = settings["output_name"]
 
     save_hdf5_dataset(path_data=str(Path(__file__).resolve().parent.parent / "data"), 
                     data_name_lst=data_name_lst,

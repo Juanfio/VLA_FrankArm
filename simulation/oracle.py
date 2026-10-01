@@ -93,10 +93,11 @@ def _save_hdf5(out_path: str, rgb: list, depth: list, proprio: list, ee_pos: lis
 
 # ─────────────────────────────────────────────────────────────────────────────
 if __name__ == "__main__":
+    # python oracle.py --n_demos 5 --settings cfg.json
     parser = argparse.ArgumentParser()
-    parser.add_argument("--n_demos",      type=int, default=100)
-    parser.add_argument("--out_path",     type=str,
-                        default="data/demos.hdf5")
+    parser.add_argument("--n_demos", type=int, default=100)
+    parser.add_argument("--settings", type=str, default="cfg.json")
     args = parser.parse_args()
 
-    collect_demos(args.n_demos, Path.cwd().parent / args.out_path)
+    settings = get_settings(settings=str(Path(__file__).resolve().parent.parent / f"{args.settings}"))
+    collect_demos(args.n_demos, Path(__file__).resolve().parent.parent / "data" / settings["data_name_sim"])
