@@ -5,6 +5,8 @@ import torch.nn.functional as F
 from torch.optim import Adam
 from pathlib import Path
 import argparse
+import numpy as np
+import h5py
 
 N_BINS=32
 BATCH_SIZE=32

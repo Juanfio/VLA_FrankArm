@@ -2,10 +2,11 @@ from pathlib import Path
 import numpy as np
 import h5py
 import argparse
+from preprocessing.utils import get_settings
 
 # Allow running from project root
-import sys
-sys.path.insert(0, str(Path(__file__).parent.parent))
+# import sys
+# sys.path.insert(0, str(Path(__file__).parent.parent))
 from simulation.miniarm_env import MiniArmEnv
 
 class Oracle():
