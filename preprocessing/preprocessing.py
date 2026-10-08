@@ -11,6 +11,7 @@ import h5py
 import numpy as np
 
 N_BINS = 32
+LOCAL_MODEL_DIR = Path(__file__).resolve().parent / "language_models" / "all-MiniLM-L6-v2"
 #################################################
 ################# Open dataset ##################
 #################################################
@@ -262,6 +263,15 @@ def _to_str(x) -> str:
         x = x.item()
     return x.decode("utf-8") if isinstance(x, bytes) else str(x)
 
+def load_text_model(model_name="all-MiniLM-L6-v2", local_dir=LOCAL_MODEL_DIR):
+    """Load from a local folder if present; otherwise download once and save it there."""
+    if (local_dir / "modules.json").exists():
+        return SentenceTransformer(str(local_dir))          # no network access
+    model = SentenceTransformer(model_name)                  # one-time download
+    local_dir.mkdir(parents=True, exist_ok=True)
+    model.save(str(local_dir))
+    return model
+
 def add_language_embeddings(data,
                             model_name="all-MiniLM-L6-v2", out_key="language_embedding"):
     """
@@ -275,7 +285,7 @@ def add_language_embeddings(data,
     uniq = sorted(set(texts))
     print(f"{len(uniq)} unique instructions")
 
-    text_model = SentenceTransformer(model_name)
+    text_model = load_text_model(model_name)
     emb = text_model.encode(uniq, convert_to_tensor=True, normalize_embeddings=True).cpu()
     lookup = {t: e for t, e in zip(uniq, emb)}
 
