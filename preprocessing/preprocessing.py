@@ -15,10 +15,10 @@ LOCAL_MODEL_DIR = Path(__file__).resolve().parent / "language_models" / "all-Min
 #################################################
 ################# Open dataset ##################
 #################################################
-def open_combined_dataset(path_data: str, output_name: str):
+def open_combined_dataset(path_data: str, oxe_dataset_name: str):
     data = []
     metadata = {}
-    with h5py.File(f"{path_data}/{output_name}.h5", "r") as f:
+    with h5py.File(f"{path_data}/{oxe_dataset_name}.h5", "r") as f:
         for data_name in f.keys(): # access a single dataset.
             total_samples = 0
             data_grp = f[data_name]
@@ -364,11 +364,11 @@ def get_dataloaders_oxe(cfg: str = "cfg.json",
     settings = get_settings(settings=str(Path(__file__).resolve().parent.parent / f"{cfg}"))
 
     data_name_lst = settings["data_name_lst"] # characteristics: Franka, Single Arm, EEF Position.
-    output_name = settings["output_name"]
+    oxe_dataset_name = settings["oxe_dataset_name"]
     path_data = settings["path_data"]
 
     ############## open data
-    data, metadata = open_combined_dataset(path_data, output_name)
+    data, metadata = open_combined_dataset(path_data, oxe_dataset_name)
     ############## discretize data
     data_discretized, action_percentiles = apply_discretization(data, metadata, N_BINS)
     
@@ -493,6 +493,14 @@ Note: Mean and std must come from the raw data, because there aren't enough epis
     # save these alongside your checkpoint/action_percentiles for later reuse at inference time
     torch.save({"mean": fixed_mean, "std": fixed_std}, str(Path(__file__).resolve().parent.parent) + "/data/sim_image_stats.pt")
 
+def get_action_percentiles(sim_data):
+    sim_action_percentiles = {}
+    stacked = np.stack([s["actions"] for s in sim_data])
+    p1 = np.percentile(stacked, 1, axis=0)
+    p99 = np.percentile(stacked, 99, axis=0)
+    sim_action_percentiles["simulated"] = {"actions": {"p1": p1, "p99": p99}}
+
+    return stacked, sim_action_percentiles
 def get_dataloaders_sim(cfg: str = "cfg.json", 
                         n_bins: int = N_BINS,
                         keys_to_keep: dict = None,
@@ -511,11 +519,8 @@ def get_dataloaders_sim(cfg: str = "cfg.json",
     # metadata.update(sim_metadata)
 
     # 3. discretize (own p1/p99, own action_dim=3)
-    sim_action_percentiles = {}
-    stacked = np.stack([s["actions"] for s in sim_data])
-    p1 = np.percentile(stacked, 1, axis=0)
-    p99 = np.percentile(stacked, 99, axis=0)
-    sim_action_percentiles["simulated"] = {"actions": {"p1": p1, "p99": p99}}
+    stacked, sim_action_percentiles = get_action_percentiles(sim_data)
+    p1, p99 = sim_action_percentiles["simulated"]["actions"]["p1"], sim_action_percentiles["simulated"]["actions"]["p99"]
 
     sim_data_discretized = [dict(s) for s in sim_data]
     discretized = discretize(stacked, p1, p99, N_BINS)

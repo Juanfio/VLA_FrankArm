@@ -14,6 +14,7 @@ BATCH_SIZE=32
 ####### Get the data and define the model #######
 #################################################
 def get_model(parameters: dict):
+    #TODO: RENAME THIS FUNCTION. YOU ARE NOT GETTING THE MODEL YOU ARE DEFINING IT BASED ON SOME PARAMETERS.
  
     vit = VisionTransformer(
         img_size=parameters["img_size"], patch_size=parameters["patch_size"],
@@ -242,11 +243,12 @@ if __name__ == "__main__":
     # print(f"threads set to: {torch.get_num_threads()}")
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
     num_epochs=args.n_epochs
+    lr=settings["learning_rate"]
     model, metrics_epoch = train(
                             model=model,
                             train_loader=train_loader,
                             val_loader=val_loader,
                             device=device,
                             num_epochs=num_epochs,
-                            lr=1e-4,
+                            lr=lr,
                         )

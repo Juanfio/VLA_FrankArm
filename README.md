@@ -1,4 +1,4 @@
-# VLA-FrankArm: Vision-Language-Action Manipulation with a Franka Arm
+# VLA-FrankaArm: Vision-Language-Action Manipulation with a Franka Arm
 
 Vision-Language-Action Model (VLA) trained on Open X Embodiment (OxE) data for manipulation tasks with Franka Arm. Policy rollout on simulated environment.
 

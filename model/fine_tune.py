@@ -244,7 +244,7 @@ def load_lora_adapters(model, adapter_path: str, device):
 if __name__ == "__main__":
     '''
     Execute from VLA_FrankaArm/ folder.
-    python -m model.train --settings cfg.json --n_epochs 5
+    python -m model.fine_tune --settings cfg.json --n_epochs 5
     '''
     parser = argparse.ArgumentParser()
     parser.add_argument("--settings", type=str)
@@ -268,7 +268,6 @@ if __name__ == "__main__":
     parameters["lang_dim"] = lang_dim
     model = get_model(parameters)
     model.load_state_dict(checkpoint["model_state_dict"])
-
 
     # freeze everything, inject LoRA into the encoder, unfreeze the new sim head
     model = setup_lora_model(model, r=8, alpha=16, dropout=0.05, new_head_name="simulated")
